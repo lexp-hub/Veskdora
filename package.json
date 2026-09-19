@@ -1,8 +1,8 @@
 {
-    "name": "vesktop",
+    "name": "veskdora",
     "version": "1.6.7",
     "private": true,
-    "description": "Vesktop is a custom Discord desktop app",
+    "description": "Veskdora is an open-source fork of Vesktop optimized for Fedora Workstation",
     "keywords": [],
     "homepage": "https://vencord.dev/",
     "license": "GPL-3.0-or-later",
@@ -14,6 +14,7 @@
         "buildLibVesktop": "pnpm -C packages/libvesktop install && pnpm -C packages/libvesktop run build",
         "package": "pnpm build && electron-builder",
         "package:dir": "pnpm build && electron-builder --dir",
+        "package:rpm": "pnpm build && electron-builder --linux rpm",
         "lint": "eslint",
         "lint:fix": "pnpm lint --fix",
         "start": "pnpm build && electron .",
@@ -66,9 +67,9 @@
         "pnpm": ">=11"
     },
     "build": {
-        "appId": "dev.vencord.vesktop",
-        "productName": "Vesktop",
-        "executableName": "vesktop",
+        "appId": "io.github.veskdora.Veskdora",
+        "productName": "Veskdora",
+        "executableName": "veskdora",
         "files": [
             "!*",
             "!node_modules",
@@ -80,7 +81,9 @@
         "protocols": {
             "name": "Discord",
             "schemes": [
-                "discord"
+                "discord",
+                "veskdora",
+                "vesktop"
             ]
         },
         "beforePack": "scripts/build/beforePack.mjs",
@@ -121,13 +124,14 @@
             ],
             "desktop": {
                 "entry": {
-                    "Name": "Vesktop",
+                    "Name": "Veskdora",
                     "GenericName": "Internet Messenger",
+                    "Comment": "Discord client with Vencord optimized for Fedora Workstation",
                     "Type": "Application",
-                    "Categories": "Network;InstantMessaging;Chat;",
-                    "Keywords": "discord;vencord;electron;chat;",
-                    "MimeType": "x-scheme-handler/discord",
-                    "StartupWMClass": "vesktop"
+                    "Categories": "Network;InstantMessaging;Chat;AudioVideo;",
+                    "Keywords": "discord;vencord;electron;chat;fedora;",
+                    "MimeType": "x-scheme-handler/discord;x-scheme-handler/veskdora;x-scheme-handler/vesktop;",
+                    "StartupWMClass": "veskdora"
                 }
             }
         },
@@ -201,7 +205,16 @@
         },
         "rpm": {
             "fpm": [
-                "--rpm-rpmbuild-define=_build_id_links none"
+                "--rpm-rpmbuild-define=_build_id_links none",
+                "build/io.github.veskdora.Veskdora.metainfo.xml=/usr/share/metainfo/io.github.veskdora.Veskdora.metainfo.xml"
+            ],
+            "depends": [
+                "pipewire",
+                "pipewire-pulseaudio",
+                "xdg-desktop-portal",
+                "xdg-desktop-portal-gnome",
+                "libnotify",
+                "libsecret"
             ]
         },
         "electronFuses": {

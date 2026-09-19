@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.veskdora.Veskdora</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Veskdora</name>
+  <summary>Custom Discord desktop app optimized for Fedora Workstation</summary>
+  <summary xml:lang="it">Client desktop Discord personalizzato ottimizzato per Fedora Workstation</summary>
+
+  <description>
+    <p>
+      Veskdora is an open-source fork of Vesktop aiming to provide a fast, responsive, and seamless experience on Fedora Workstation.
+    </p>
+    <p>
+      Features:
+    </p>
+    <ul>
+      <li>Vencord pre-installed for plugins and themes</li>
+      <li>Native Wayland support with fractional scaling (Ozone auto)</li>
+      <li>PipeWire screensharing with system audio sharing via Portal and venmic</li>
+      <li>GNOME Shell integration with safe close/quit behavior</li>
+      <li>Hardware video acceleration (VA-API) for low CPU usage</li>
+      <li>IBus input method editor integration on Wayland</li>
+    </ul>
+  </description>
+  <description xml:lang="it">
+    <p>
+      Veskdora è un client desktop Discord personalizzato pensato per offrire un'esperienza fluida e reattiva su Fedora Workstation.
+    </p>
+    <p>
+      Funzionalità:
+    </p>
+    <ul>
+      <li>Vencord preinstallato per plugin e temi personalizzati</li>
+      <li>Supporto nativo Wayland con scaling frazionario (Ozone auto)</li>
+      <li>Condivisione schermo e audio PipeWire tramite Desktop Portal e venmic</li>
+      <li>Integrazione perfetta con GNOME Shell</li>
+      <li>Accelerazione hardware video (VA-API) per ridurre il consumo di CPU</li>
+      <li>Integrazione IBus per il metodo di input su Wayland</li>
+    </ul>
+  </description>
+
+  <launchable type="desktop-id">veskdora.desktop</launchable>
+
+  <provides>
+    <mediatype>x-scheme-handler/discord</mediatype>
+    <mediatype>x-scheme-handler/veskdora</mediatype>
+    <mediatype>x-scheme-handler/vesktop</mediatype>
+  </provides>
+
+  <categories>
+    <category>Network</category>
+    <category>InstantMessaging</category>
+    <category>Chat</category>
+    <category>AudioVideo</category>
+  </categories>
+
+  <url type="homepage">https://github.com/Vencord/Vesktop</url>
+  <url type="bugtracker">https://github.com/Vencord/Vesktop/issues</url>
+
+  <content_rating type="oars-1.1" />
+
+  <releases>
+    <release version="1.6.7" date="2026-09-19">
+      <description>
+        <p>Veskdora release optimized for Fedora Workstation with Wayland, PipeWire, and GNOME integration.</p>
+      </description>
+    </release>
+  </releases>
+</component>
+

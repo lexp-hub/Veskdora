@@ -5,7 +5,7 @@
  */
 
 import { app } from "electron";
-import { existsSync, mkdirSync } from "fs";
+import { cpSync, existsSync, mkdirSync } from "fs";
 import { dirname, join } from "path";
 
 import { CommandLine } from "./cli";
@@ -20,6 +20,21 @@ export const PORTABLE =
 export const DATA_DIR =
     process.env.VENCORD_USER_DATA_DIR || (PORTABLE ? join(vesktopDir, "Data") : join(app.getPath("userData")));
 
+// Auto-migrate from ~/.config/vesktop if ~/.config/veskdora does not exist yet
+if (process.platform === "linux" && !existsSync(DATA_DIR)) {
+    const configHome = process.env.XDG_CONFIG_HOME || join(process.env.HOME || "", ".config");
+    const oldVesktopDir = join(configHome, "vesktop");
+    if (existsSync(oldVesktopDir)) {
+        try {
+            mkdirSync(DATA_DIR, { recursive: true });
+            cpSync(oldVesktopDir, DATA_DIR, { recursive: true });
+            console.log("Successfully migrated existing Vesktop profile to Veskdora");
+        } catch (e) {
+            console.error("Failed to migrate Vesktop config:", e);
+        }
+    }
+}
+
 mkdirSync(DATA_DIR, { recursive: true });
 
 export const SESSION_DATA_DIR = join(DATA_DIR, "sessionData");
@@ -31,7 +46,7 @@ export const VENCORD_QUICKCSS_FILE = join(VENCORD_SETTINGS_DIR, "quickCss.css");
 export const VENCORD_SETTINGS_FILE = join(VENCORD_SETTINGS_DIR, "settings.json");
 export const VENCORD_THEMES_DIR = join(DATA_DIR, "themes");
 
-export const USER_AGENT = `Vesktop/${app.getVersion()} (https://github.com/Vencord/Vesktop)`;
+export const USER_AGENT = `Veskdora/${app.getVersion()} (https://github.com/Veskdora/Veskdora)`;
 
 // dimensions shamelessly stolen from Discord Desktop :3
 export const MIN_WIDTH = 940;

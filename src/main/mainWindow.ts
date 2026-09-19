@@ -30,7 +30,7 @@ import { sendRendererCommand } from "./ipcCommands";
 import { darwinURL } from "./main";
 import { Settings, State, VencordSettings } from "./settings";
 import { createSplashWindow, updateSplashMessage } from "./splash";
-import { destroyTray, initTray } from "./tray";
+import { destroyTray, hasActiveTray, initTray } from "./tray";
 import { clearData } from "./utils/clearData";
 import { makeLinksOpenExternally } from "./utils/makeLinksOpenExternally";
 import { applyDeckKeyboardFix, askToApplySteamLayout, isDeckGameMode } from "./utils/steamOS";
@@ -77,7 +77,7 @@ function initMenuBar(win: BrowserWindow) {
 
     const subMenu = [
         {
-            label: "About Vesktop",
+            label: "About Veskdora",
             click: createAboutWindow
         },
         {
@@ -87,14 +87,14 @@ function initMenuBar(win: BrowserWindow) {
                 app.relaunch();
                 app.quit();
             },
-            toolTip: "Vesktop will automatically restart after this operation"
+            toolTip: "Veskdora will automatically restart after this operation"
         },
         {
-            label: "Reset Vesktop",
+            label: "Reset Veskdora",
             async click() {
                 await clearData(win);
             },
-            toolTip: "Vesktop will automatically restart after this operation"
+            toolTip: "Veskdora will automatically restart after this operation"
         },
         {
             label: "Relaunch",
@@ -180,7 +180,7 @@ function initMenuBar(win: BrowserWindow) {
 
     const menuItems = [
         {
-            label: "Vesktop",
+            label: "Veskdora",
             role: "appMenu",
             submenu: subMenu.filter(isTruthy)
         },
@@ -382,7 +382,7 @@ function buildBrowserWindowOptions(): BrowserWindowConstructorOptions {
     }
 
     if (staticTitle) {
-        options.title = "Vesktop";
+        options.title = "Veskdora";
     }
 
     if (process.platform === "darwin") {
@@ -409,7 +409,12 @@ function createMainWindow() {
     if (process.platform === "darwin" && Settings.store.nativeTitleBar) win.setWindowButtonVisibility(false);
 
     win.on("close", e => {
-        const useTray = !isDeckGameMode && Settings.store.minimizeToTray && Settings.store.tray;
+        // On Linux / GNOME, only minimize to tray if a tray is actually active and available
+        const useTray =
+            !isDeckGameMode &&
+            Settings.store.minimizeToTray &&
+            Settings.store.tray &&
+            (process.platform === "win32" || hasActiveTray());
         if (isQuitting || (process.platform !== "darwin" && !useTray)) return;
 
         e.preventDefault();

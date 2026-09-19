@@ -64,8 +64,14 @@ const extraOptions = {
     "ozone-platform": {
         hidden: process.platform !== "linux",
         type: "string",
-        description: "Whether to run Vesktop in Wayland or X11 (XWayland)",
-        options: ["x11", "wayland"]
+        description: "Whether to run Veskdora in Wayland or X11 (XWayland)",
+        options: ["x11", "wayland", "auto"]
+    },
+    "ozone-platform-hint": {
+        hidden: process.platform !== "linux",
+        type: "string",
+        description: "Ozone platform hint for Wayland/X11 (Fedora Workstation default: auto)",
+        options: ["auto", "wayland", "x11"]
     }
 } satisfies Record<string, Option>;
 
@@ -84,13 +90,13 @@ export function checkCommandLineForHelpOrVersion() {
     const { help, version } = CommandLine.values;
 
     if (version) {
-        console.log(`Vesktop v${app.getVersion()}`);
+        console.log(`Veskdora v${app.getVersion()}`);
         app.exit(0);
     }
 
     if (help) {
         const base = stripIndent`
-            Vesktop v${app.getVersion()}
+            Veskdora v${app.getVersion()}
 
             Usage: ${basename(process.execPath)} [options] [url]
 
@@ -100,7 +106,7 @@ export function checkCommandLineForHelpOrVersion() {
             Chromium Options:
               See <https://peter.sh/experiments/chromium-command-line-switches> - only some of them work
 
-            Vesktop Options:
+            Veskdora Options:
         `;
 
         const optionLines = Object.entries(options)

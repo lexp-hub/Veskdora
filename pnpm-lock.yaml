@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@noble/hashes': 1.4.0
+
 patchedDependencies:
   arrpc@3.5.0: 4313fe844324a52ef0453078a86f5d1ee2d4f406331201211020d9fa243323c4
   electron-updater: 080505564abb2ebbda932bbf8fe91540c74dd905de994888d52ffce6f882f887
@@ -389,10 +392,6 @@ packages:
     resolution: {integrity: sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==}
     engines: {node: '>= 16'}
 
-  '@noble/hashes@2.2.0':
-    resolution: {integrity: sha512-IYqDGiTXab6FniAgnSdZwgWbomxpy9FtYvLKs7wCUs2a8RkITG+DFGO1DM9cr+E3/RgADRpFjrKVaJ1z6sjtEg==}
-    engines: {node: '>= 20.19.0'}
-
   '@npmcli/agent@3.0.0':
     resolution: {integrity: sha512-S79NdEgDQd/NGCay6TCoVzXSj74skRZIKJcpJjC5lOq34SZzyI6MqtiiWoiVWoVrTcGjNeC4ipbh1VIHlpfF5Q==}
     engines: {node: ^18.17.0 || >=20.5.0}
@@ -683,7 +682,7 @@ packages:
     engines: {node: '>= 0.4'}
 
   arrpc@https://codeload.github.com/OpenAsar/arrpc/tar.gz/2234e9c9111f4c42ebcc3aa6a2215bfd979eef77:
-    resolution: {gitHosted: true, tarball: https://codeload.github.com/OpenAsar/arrpc/tar.gz/2234e9c9111f4c42ebcc3aa6a2215bfd979eef77}
+    resolution: {gitHosted: true, integrity: sha512-N5Pmu/oIOozSEynkAVvglxZWGazXQ8J0MfnlhCnzydHGcdthFGeIoMP6UIxrGnlwohpLEHb0k+9yrZiHMZIpsg==, tarball: https://codeload.github.com/OpenAsar/arrpc/tar.gz/2234e9c9111f4c42ebcc3aa6a2215bfd979eef77}
     version: 3.5.0
     hasBin: true
 
@@ -3099,8 +3098,6 @@ snapshots:
 
   '@noble/hashes@1.4.0': {}
 
-  '@noble/hashes@2.2.0': {}
-
   '@npmcli/agent@3.0.0(supports-color@7.2.0)':
     dependencies:
       agent-base: 7.1.4
@@ -3388,7 +3385,7 @@ snapshots:
       '@electron/rebuild': 4.0.6(supports-color@7.2.0)
       '@electron/universal': 2.0.3(supports-color@7.2.0)
       '@malept/flatpak-bundler': 0.4.0(supports-color@7.2.0)
-      '@noble/hashes': 2.2.0
+      '@noble/hashes': 1.4.0
       '@peculiar/webcrypto': 1.7.1
       '@types/fs-extra': 9.0.13
       ajv: 8.20.0

@@ -33,6 +33,11 @@ AppEvents.on("setTrayVariant", async variant => {
 
 export function destroyTray() {
     tray?.destroy();
+    tray = null as any;
+}
+
+export function hasActiveTray() {
+    return Boolean(tray && !tray.isDestroyed());
 }
 
 export async function initTray(win: BrowserWindow, setIsQuitting: (val: boolean) => void) {
@@ -86,7 +91,7 @@ export async function initTray(win: BrowserWindow, setIsQuitting: (val: boolean)
     ]);
 
     tray = new Tray(await resolveAssetPath(trayVariant));
-    tray.setToolTip("Vesktop");
+    tray.setToolTip("Veskdora");
     tray.setContextMenu(trayMenu);
     tray.on("click", onTrayClick);
 }

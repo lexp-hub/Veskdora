@@ -6,10 +6,13 @@
 
 import { Settings } from "./settings";
 
+const isLinux = typeof process !== "undefined" && process.platform === "linux";
+const isGnome = isLinux && Boolean(process.env.XDG_CURRENT_DESKTOP?.includes("GNOME"));
+
 export const DefaultVesktopSettings: Settings = {
     discordBranch: "stable",
     hardwareAcceleration: true,
-    hardwareVideoAcceleration: false,
+    hardwareVideoAcceleration: isLinux,
     nativeTitleBar: false,
     staticTitle: false,
     enableMenu: false,
@@ -17,8 +20,10 @@ export const DefaultVesktopSettings: Settings = {
     enableRoundedCorners: true,
     enableSplashScreen: true,
     splashTheming: true,
-    tray: true,
-    minimizeToTray: true,
+    // On GNOME (Fedora Workstation default), there is no system tray by default.
+    // Defaulting minimizeToTray to false prevents the window from vanishing into nowhere.
+    tray: !isGnome,
+    minimizeToTray: !isGnome,
     clickTrayToShowHide: false,
     disableMinSize: false,
     disableSmoothScroll: false,

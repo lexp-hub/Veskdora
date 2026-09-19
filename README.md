@@ -1,60 +1,67 @@
-# Vesktop
+<div align="center">
+  <img src="build/icon.svg" alt="Veskdora" width="128" height="128" />
+  <h1>Veskdora</h1>
+  <p align="center">
+    <strong>A fork of Vesktop optimized for Fedora Workstation</strong>
+  </p>
+  <p align="center">
+    <img src="https://img.shields.io/badge/Fork_of-Vesktop-7289DA?style=flat-square&logo=discord&logoColor=white" alt="Vesktop Fork" />
+    <img src="https://img.shields.io/badge/Fedora-Workstation_40+-51A2DA?style=flat-square&logo=fedora&logoColor=white" alt="Fedora" />
+    <img src="https://img.shields.io/badge/Display-Native_Wayland-4E9A06?style=flat-square&logo=wayland&logoColor=white" alt="Wayland" />
+    <img src="https://img.shields.io/badge/Audio-PipeWire-009688?style=flat-square" alt="PipeWire" />
+    <img src="https://img.shields.io/badge/Packaging-Native_RPM-CC342D?style=flat-square&logo=redhat" alt="RPM" />
+    <img src="https://img.shields.io/badge/License-GPL--3.0-blue?style=flat-square" alt="License" />
+  </p>
+</div>
 
-Vesktop is a custom Discord desktop app
+<br>
 
-**Main features**:
-- Vencord preinstalled
-- Much more lightweight and faster than the official Discord app
-- Linux Screenshare with sound & wayland
-- Much better privacy, since Discord has no access to your system
+Veskdora is an open-source fork of Vesktop tailored specifically for Fedora Workstation (GNOME, Wayland, and PipeWire). It provides a native Discord client experience with pre-installed Vencord and out-of-the-box system optimizations.
 
-**Not yet supported**:
-- Global Keybinds
-- see the [Roadmap](https://github.com/Vencord/Vesktop/issues/324)
+## Features
 
-![](https://github.com/Vencord/Vesktop/assets/45497981/8608a899-96a9-4027-9725-2cb02ba189fd)
-![](https://github.com/Vencord/Vesktop/assets/45497981/8701e5de-52c4-4346-a990-719cb971642e)
+- **Native Wayland**: Direct Wayland rendering via Ozone auto, providing sharp UI rendering with fractional scaling on HiDPI displays.
+- **PipeWire Integration**: Screen sharing through XDG Desktop Portal and system/application audio capture via virtual microphone on PipeWire PulseAudio.
+- **Hardware Acceleration**: VA-API video decode and encode enabled by default for Intel, AMD, and NVIDIA.
+- **IBus Support**: Wayland input method enabled out of the box.
+- **GNOME Shell Integration**: Safe window close behavior by default, avoiding hidden background processes when no system tray is available.
+- **Automatic Migration**: Automatically imports configuration and plugins from `~/.config/vesktop` on first launch.
+- **RPM Packaging**: Built-in RPM target with AppStream metadata for GNOME Software.
 
-## Installing
+## Installation
 
-Visit https://vesktop.dev/install
+Install the RPM package using DNF:
+
+```sh
+sudo dnf install ./dist/veskdora-1.6.7.x86_64.rpm
+```
 
 ## Building from Source
 
-You need to have the following dependencies installed:
-- [Git](https://git-scm.com/downloads)
-- [Node.js](https://nodejs.org/en/download)
-- pnpm: `npm install --global pnpm`
+### Prerequisites
 
-Packaging will create builds in the dist/ folder
+Install build tools and development libraries:
 
 ```sh
-git clone https://github.com/Vencord/Vesktop
-cd Vesktop
-
-# Install Dependencies
-pnpm i
-
-# Either run it without packaging
-pnpm start
-
-# Or package (will build packages for your OS)
-pnpm package
-
-# Or only build the Linux Pacman package
-pnpm package --linux pacman
-
-# Or package to a directory only
-pnpm package:dir
+sudo dnf install @development-tools python3 nodejs curl pkgconf-pkg-config glib2-devel pipewire-devel
+npm install -g pnpm
 ```
 
-## Building LibVesktop from Source
+### Build
 
-This is a small C++ helper library Vesktop uses on Linux to emit D-Bus events. By default, prebuilt binaries for x64 and arm64 are used.
+```sh
+git clone https://github.com/lexp-hub/Veskdora.git
+cd Veskdora
+pnpm i
+pnpm package:rpm
+```
 
-If you want to build it from source:
-1. Install build dependencies:
-    - Debian/Ubuntu: `apt install build-essential python3 curl pkg-config libglib2.0-dev`
-    - Fedora: `dnf install @c-development @development-tools python3 curl pkgconf-pkg-config glib2-devel`
-2. Run `pnpm buildLibVesktop`
-3. From now on, building Vesktop will use your own build
+### Development
+
+- Run development build: `pnpm start`
+- Type check: `pnpm testTypes`
+- Lint: `pnpm lint`
+
+## License
+
+GNU General Public License v3.0 (GPL-3.0-or-later). See [LICENSE](LICENSE).

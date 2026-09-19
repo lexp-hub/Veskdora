@@ -21,7 +21,7 @@ import { Settings, State } from "./settings";
 import { setAsDefaultProtocolClient } from "./utils/setAsDefaultProtocolClient";
 import { isDeckGameMode } from "./utils/steamOS";
 
-console.log("Vesktop v" + app.getVersion());
+console.log("Veskdora v" + app.getVersion());
 
 // Make the Vencord files use our DATA_DIR
 process.env.VENCORD_USER_DATA_DIR = DATA_DIR;
@@ -31,7 +31,20 @@ const isLinux = process.platform === "linux";
 export let enableHardwareAcceleration = true;
 
 function init() {
-    setAsDefaultProtocolClient("discord");
+    void setAsDefaultProtocolClient(["discord", "veskdora", "vesktop"]);
+
+    if (isLinux) {
+        // Automatically enable native Wayland if running under a Wayland session (Fedora Workstation default)
+        // while cleanly falling back to X11 when running under X11
+        if (!app.commandLine.hasSwitch("ozone-platform") && !app.commandLine.hasSwitch("ozone-platform-hint")) {
+            app.commandLine.appendSwitch("ozone-platform-hint", "auto");
+        }
+
+        // Enable Wayland IME for seamless IBus input method support (default on Fedora Workstation)
+        if (!app.commandLine.hasSwitch("enable-wayland-ime")) {
+            app.commandLine.appendSwitch("enable-wayland-ime");
+        }
+    }
 
     const { disableSmoothScroll, hardwareAcceleration, hardwareVideoAcceleration } = Settings.store;
 
@@ -51,6 +64,11 @@ function init() {
             if (isLinux) {
                 enabledFeatures.add("AcceleratedVideoDecodeLinuxGL");
                 enabledFeatures.add("AcceleratedVideoDecodeLinuxZeroCopyGL");
+                enabledFeatures.add("VaapiVideoDecoder");
+                enabledFeatures.add("VaapiVideoEncoder");
+                enabledFeatures.add("VaapiIgnoreDriverChecks");
+                app.commandLine.appendSwitch("enable-gpu-rasterization");
+                app.commandLine.appendSwitch("enable-zero-copy");
             }
         }
     }
@@ -67,6 +85,10 @@ function init() {
     disabledFeatures.add("MediaSessionService");
 
     if (isLinux) {
+        // Essential features for Fedora Workstation (Wayland decorations & PipeWire desktop portal capturer)
+        enabledFeatures.add("WaylandWindowDecorations");
+        enabledFeatures.add("WebRTCPipeWireCapturer");
+
         // This is needed to fix washed out colours - https://github.com/electron/electron/issues/49566
         // Supposed to be fixed already according to comments there, but it's just not lol, I can repro on Electron 43.0.0
         // when moving the window from my main monitor (HDR - not sure if this is relevant lol) to second monitor (SDR) and back
